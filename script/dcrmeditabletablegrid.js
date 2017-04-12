@@ -6516,12 +6516,12 @@ function DisplayNewButtonMenu(self, $this) {
  parameters["parentcustomeridname"] = "Contoso";
  parameters["parentcustomeridtype"] = "account";
 
-For simple lookups you must set the value and the text to display in the lookup. Use the suffix “name” with the name of the attribute to set the value for the text.
-Don’t use any other arguments.
+For simple lookups you must set the value and the text to display in the lookup. Use the suffix Â“nameÂ” with the name of the attribute to set the value for the text.
+DonÂ’t use any other arguments.
 For customer and owner lookups you must set the value and the name in the same way you set them for simple lookups.
-In addition you must use the suffix “type” to specify the type of entity.
+In addition you must use the suffix Â“typeÂ” to specify the type of entity.
 Allowable values are account, contact, systemuser, and team.
-You can’t set the values for partylist or regarding lookups.
+You canÂ’t set the values for partylist or regarding lookups.
                     */
                     var parameters = {};
 
@@ -8646,6 +8646,19 @@ var addRow = function (row) {
     return '<row>' + cells.join('') + '</row>';
 };
 
+function addHeaderRow(arrayOfTitles)
+{
+ var text = '<row>';
+     for (var i = 0 ; i< arrayOfTitles.length; i++) {
+     if(arrayOfTitles[i] != ""){
+        var item = '<c t="inlineStr"><is><t>' + arrayOfTitles[i] + '</t></is></c>'
+    	text += item;
+    	}
+    }
+    text += '</row>';
+    return text;
+}
+
 function SaveGridAsExcel(who) {
     var isAvailable = window.FileReader !== undefined && window.JSZip !== undefined && !_isSafari();
     LogIt("isAvailable " + isAvailable);
@@ -8656,7 +8669,13 @@ function SaveGridAsExcel(who) {
         return;
     }
 
-    var xml = addRow(headers);
+    	var tempArr = [];
+    	for (var j = 0, jen = headers.length ; j < jen ; j++) {
+        	tempArr.push(headers[j].title);
+    	}
+	var xml = addHeaderRow(tempArr);
+	
+    //var xml = addRow(headers);
     for (var i = 0, ien = rows.length ; i < ien ; i++) {
         xml += addRow($(rows[i]).find('td'));
     }
